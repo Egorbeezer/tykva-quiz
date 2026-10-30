@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>🎃 Какая ты тыква? — тест</title>
+<style>
+:root{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;color:#382317;background:#fff6e9}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 80% 10%,#ffe1ab,transparent 35%),linear-gradient(150deg,#fff8ed,#ffedda);display:grid;place-items:center;padding:24px}.card{width:min(100%,610px);background:#fffefa;border:2px solid #f4d3ae;box-shadow:0 18px 65px #783b1830;border-radius:28px;padding:clamp(20px,5vw,42px)}h1{font-size:clamp(29px,6vw,42px);margin:8px 0 10px;line-height:1.15}h2{font-size:clamp(22px,5vw,28px);line-height:1.3}.sub{color:#846554;line-height:1.5}.eyebrow{color:#b66824;font-weight:800;font-size:12px;letter-spacing:1.8px;text-transform:uppercase}.pumpkin{font-size:70px;line-height:1.2}.progress{display:flex;gap:6px;margin:25px 0}.progress div{flex:1;height:7px;border-radius:9px;background:#f2e4d5}.progress div.done{background:#e78b37}.answers{display:grid;gap:11px;margin-top:24px}.answer{width:100%;border:1.5px solid #efdbc7;background:#fffaf4;color:#432a1c;text-align:left;border-radius:16px;padding:16px;display:flex;gap:14px;align-items:center;font:inherit;cursor:pointer;transition:.15s}.answer:hover,.answer:focus-visible{border-color:#df812d;background:#fff0dd;transform:translateY(-1px)}.letter{display:grid;place-items:center;flex:0 0 36px;height:36px;border-radius:11px;background:#ffedd7;font-weight:800;color:#ad5e1f}.footer{display:flex;justify-content:space-between;align-items:center;margin-top:20px;gap:10px}.muted{color:#977b67;font-size:13px}.btn{cursor:pointer;border:0;background:#dc792b;color:#fff;border-radius:13px;padding:13px 18px;font-weight:750;font:inherit}.btn:hover{background:#b95d19}.btn.secondary{background:#f4e7d9;color:#5d3824}.result{text-align:center}.result p{line-height:1.6}.bars{text-align:left;margin:24px 0}.bar{display:grid;grid-template-columns:150px 1fr 20px;gap:10px;align-items:center;margin:12px 0;font-size:13px}.track{height:10px;background:#f1e4d9;border-radius:9px;overflow:hidden}.fill{height:100%;background:#e38b3b;border-radius:9px}.buttons{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.hidden{display:none}@media(max-width:430px){.bar{grid-template-columns:120px 1fr 14px;font-size:12px}.card{padding:22px}}
+</style>
+</head>
+<body>
+<main class="card" id="app" aria-live="polite"></main>
+<script>
+const questions=[
+{q:'Ты просыпаешься в субботу. Твои планы?',a:['Завернуться в плед и никуда не выходить','Нарядиться и отправиться за приключениями','Устроить спонтанную поездку непонятно куда','Заняться своими делами, пока все спят']},
+{q:'Как тебя описали бы друзья?',a:['Милая, заботливая, уютная','Яркая, эффектная, немного драматичная','Смешная, непредсказуемая, странненькая','Загадочная, независимая, с характером']},
+{q:'Выбери осенний напиток.',a:['Какао с маршмеллоу','Тыквенный латте со специями','Какой-нибудь безумный авторский коктейль','Чёрный кофе, без лишних вопросов']},
+{q:'Кто ты на вечеринке?',a:['Сижу с близкими и обсуждаю жизнь','Все замечают мой выход','Придумываю дикие развлечения','Появляюсь загадочно и исчезаю без предупреждения']},
+{q:'Как реагируешь на неприятности?',a:['Ищу поддержку и что-нибудь вкусное','Превращаю драму в красивую историю','Сначала смеюсь, потом разбираюсь','Молча составляю план действий']},
+{q:'Выбери магический дар.',a:['Создавать уют где угодно','Очаровывать всех с первого взгляда','Превращать скуку в приключение','Читать мысли и хранить секреты']},
+{q:'Твоя идеальная осень — это…',a:['Свечи, пироги и дождь за окном','Красивые образы, фотографии и вечеринки','Спонтанность, смех и нелепые истории','Туманные вечера, книги и немного мистики']}
+];
+const types=[
+{icon:'🧡',name:'Тыква-булочка',desc:'Ты — воплощение уюта. С тобой хочется пить чай, обсуждать секреты и прятаться от всего мира. Твоя суперсила — делать обычные дни теплее.'},
+{icon:'👑',name:'Королевская тыква',desc:'Ты не просто заходишь в комнату — ты создаёшь событие. Любишь красоту, внимание и драматичные моменты. Даже осень старается выглядеть наряднее рядом с тобой.'},
+{icon:'🎉',name:'Тыква-хаос',desc:'Ты — неожиданная сюжетная линия в жизни каждого знакомого. С тобой никогда не скучно: сегодня ты печёшь пирог, завтра случайно оказываешься на другом конце города.'},
+{icon:'🔮',name:'Ведьмина тыква',desc:'Ты загадочная, наблюдательная и слегка колдовская. У тебя тонкое чутьё, собственные правила и талант замечать то, чего другие не видят.'}
+];
+let answers=[],step=0;const app=document.querySelector('#app');
+function render(){if(step===questions.length){result();return}const q=questions[step];app.innerHTML=`<div class="eyebrow">Тыквенная диагностика</div><h1>🎃 Какая ты тыква?</h1><p class="sub">Выбирай то, что тебе ближе. Здесь нет неправильных ответов.</p><div class="progress">${questions.map((_,i)=>`<div class="${i<=step?'done':''}"></div>`).join('')}</div><div class="muted">Вопрос ${step+1} из ${questions.length}</div><h2>${q.q}</h2><div class="answers">${q.a.map((s,i)=>`<button class="answer" data-choice="${i}"><span class="letter">${'АБВГ'[i]}</span><span>${s}</span></button>`).join('')}</div><div class="footer"><button class="btn secondary" id="back" ${step===0?'disabled':''}>← Назад</button><span class="muted">Научность: 0% · Тыквенность: 100%</span></div>`;app.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>{answers[step]=+b.dataset.choice;step++;render()});app.querySelector('#back').onclick=()=>{if(step){step--;render()}}}
+function result(){const scores=[0,0,0,0];answers.forEach(i=>scores[i]++);const winner=scores.indexOf(Math.max(...scores));const t=types[winner];app.innerHTML=`<div class="result"><div class="eyebrow">Твой тыквенный тип</div><div class="pumpkin">🎃</div><h1>${t.icon} ${t.name}</h1><p>${t.desc}</p><div class="bars">${types.map((item,i)=>`<div class="bar"><span>${item.icon} ${item.name}</span><div class="track"><div class="fill" style="width:${scores[i]/7*100}%"></div></div><strong>${scores[i]}</strong></div>`).join('')}</div><div class="buttons"><button class="btn" id="share">📋 Скопировать результат</button><button class="btn secondary" id="again">↻ Пройти ещё раз</button></div><p class="muted">Научная достоверность: 0%. Тыквенная достоверность: 100%.</p></div>`;app.querySelector('#again').onclick=()=>{answers=[];step=0;render()};app.querySelector('#share').onclick=async()=>{const message=`Мой результат теста «Какая ты тыква?» — ${t.icon} ${t.name}! ${t.desc}`;try{await navigator.clipboard.writeText(message);app.querySelector('#share').textContent='✓ Скопировано!'}catch(e){window.prompt('Скопируй результат:',message)}}}
+render();
+</script>
+</body>
+</html>
